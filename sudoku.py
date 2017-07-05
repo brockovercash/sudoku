@@ -99,7 +99,8 @@ def printSingles(grid):
         print('| ', end="")
     print('')
 
-
+# 'Very difficult' puzzle generated on 7 Sudoku
+# http://www.7sudoku.com/view-puzzle?date=20170701
 input = [[0, 6, 0, 0, 9, 3, 4, 0, 0],
          [1, 0, 3, 8, 7, 0, 9, 0, 0],
          [0, 4, 0, 0, 0, 0, 0, 0, 0],
