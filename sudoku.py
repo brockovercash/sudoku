@@ -1,5 +1,35 @@
 import copy
 
+def isValid(grid, i, j, e):
+    rowOk = all([e != grid[i][x] for x in range(9)])
+    if rowOk:
+        columnOk = all([e != grid[x][j] for x in range(9)])
+        if columnOk:
+            # Finding the top left x,y co-ordinates of the section
+            # containing the i,j cell
+            secTopX, secTopY = 3 * (i//3), 3 * (j//3)
+            for x in range(secTopX, secTopX+3):
+                for y in range(secTopY, secTopY+3):
+                    if grid[x][y] == e:
+                        return False
+            return True
+    return False
+
+
+def solve(grid):
+    output = copy.deepcopy(grid)
+    for i in range(0, 9):
+        for j in range(0, 9):
+            if grid[i][j] != 0:
+                output[i][j] = []
+            else:
+                valid = []
+                for e in range(1, 10):
+                    if isValid(grid, i, j, e):
+                        valid.append(e)
+                output[i][j] = valid
+    return output
+
 
 def printCounts(grid):
     counts = [0] * 10
@@ -41,35 +71,15 @@ def hasSingular(grid, i, j):
                 isBoxSingular(grid, i, j, e) for e in grid[i][j]])
 
 
-def isValid(grid, i, j, e):
-    rowOk = all([e != grid[i][x] for x in range(9)])
-    if rowOk:
-        columnOk = all([e != grid[x][j] for x in range(9)])
-        if columnOk:
-            # Finding the top left x,y co-ordinates of the section
-            # containing the i,j cell
-            secTopX, secTopY = 3 * (i//3), 3 * (j//3)
-            for x in range(secTopX, secTopX+3):
-                for y in range(secTopY, secTopY+3):
-                    if grid[x][y] == e:
-                        return False
-            return True
-    return False
-
-
-def solve(grid):
-    output = copy.deepcopy(grid)
+def printHint(grid):
     for i in range(0, 9):
+        if i != 0 and i % 3 == 0:
+            print((6 * '_') + '|' + (7 * '_') + '|' + (6 * '_'))
         for j in range(0, 9):
-            if grid[i][j] != 0:
-                output[i][j] = []
-            else:
-                valid = []
-                for e in range(1, 10):
-                    if isValid(grid, i, j, e):
-                        valid.append(e)
-                output[i][j] = valid
-    return output
+            print(len(grid[i][j]), end=' ')
+            if j != 8 and (j + 1) % 3 == 0:
+                print('| ', end='')
+        print('')
 
 
 def printBigHint(grid):
@@ -80,17 +90,6 @@ def printBigHint(grid):
             print(grid[i][j], ((14 - len(str(grid[i][j]))) * ' '), end='')
             if j != 8 and (j + 1) % 3 == 0:
                 print('|    ', end='')
-        print('')
-
-
-def printHint(grid):
-    for i in range(0, 9):
-        if i != 0 and i % 3 == 0:
-            print((6 * '_') + '|' + (7 * '_') + '|' + (6 * '_'))
-        for j in range(0, 9):
-            print(len(grid[i][j]), end=' ')
-            if j != 8 and (j + 1) % 3 == 0:
-                print('| ', end='')
         print('')
 
 
